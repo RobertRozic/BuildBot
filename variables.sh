@@ -1,11 +1,25 @@
 #!/usr/bin/env bash
 
+# Branch to sync and build
+if [ -z "$REPO_BRANCH" ]
+then
+  echo REPO_BRANCH not specified
+  exit 1
+fi
+
 # Rom name
 if [ $REPO_BRANCH = "omni-4.3" ] || [ $REPO_BRANCH = "omni-4.4" ]
 then
   ROM_NAME="omni_"
 else
   ROM_NAME="cm_"
+fi
+
+# Device name to build
+if [ -z "$DEVICE" ]
+then
+  echo Device not specified
+  exit 1
 fi
 
 # Debug level
@@ -16,38 +30,27 @@ else
   DEBUG=userdebug
 fi
 
-# Device name to build
+export LUNCH="$ROM_NAME$DEVICE-$DEBUG"
+
+# Upload folder
 if [ $DEVICE = "codina" ]
 then
-  export LUNCH="$ROM_NAME$DEVICE-$DEBUG"
   export FOLDER=26295
+elif [ $DEVICE = "codinap" ]
+then
+  export FOLDER=29956
 elif [ $DEVICE = "janice" ]
 then
-  export LUNCH="$ROM_NAME$DEVICE-$DEBUG"
   export FOLDER=26296
 else
-  echo Device not specified or unsupported
-  exit 1
+  echo Device upload not supported
+  export UPLOAD=false
 fi
 
 # Clean directory before building
 if [ -z "$CLEAN" ]
 then
   echo CLEAN not specified
-  exit 1
-fi
-
-# Branch to sync and build
-if [ -z "$REPO_BRANCH" ]
-then
-  echo REPO_BRANCH not specified
-  exit 1
-fi
-
-# Lunch
-if [ -z "$LUNCH" ]
-then
-  echo LUNCH not specified
   exit 1
 fi
 
