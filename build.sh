@@ -113,13 +113,13 @@ then
   check_result "Cherrypicking failed"
 fi
 
-if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
+if [ -f $WORKSPACE/BuildBot/$REPO_BRANCH-setup.sh ]
 then
-  $WORKSPACE/hudson/$REPO_BRANCH-setup.sh
+  $WORKSPACE/BuildBot/$REPO_BRANCH-setup.sh
 else
-  if [ -f $WORKSPACE/hudson/$REPO_BRANCH-setup.sh ]
+  if [ -f $WORKSPACE/BuildBot/$REPO_BRANCH-setup.sh ]
   then
-    $WORKSPACE/hudson/cm-setup.sh
+    $WORKSPACE/BuildBot/cm-setup.sh
   fi 
 fi
 
@@ -147,19 +147,6 @@ UNAME=$(uname)
 if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
 then
   ccache -M 50G
-fi
-
-rm -f $WORKSPACE/changecount
-WORKSPACE=$WORKSPACE LUNCH=$LUNCH bash $WORKSPACE/hudson/changes/buildlog.sh 2>&1
-if [ -f $WORKSPACE/changecount ]
-then
-  CHANGE_COUNT=$(cat $WORKSPACE/changecount)
-  rm -f $WORKSPACE/changecount
-  if [ $CHANGE_COUNT -eq "0" ]
-  then
-    echo "Zero changes since last build, aborting"
-    exit 1
-  fi
 fi
 
 LAST_CLEAN=0
