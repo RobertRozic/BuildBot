@@ -1,3 +1,5 @@
+#!/usr/bin/env bash
+
 if [ -z "$HOME" ]
 then
   echo HOME not in environment, guessing...
