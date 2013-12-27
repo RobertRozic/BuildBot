@@ -14,12 +14,11 @@ export CL_RST="\"\033[0m\""
 cd $WORKSPACE
 
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
-
-export WORKSPACE=$PWD
-export PATH=~/bin:$PATH
-export USE_CCACHE=1
-export CCACHE_NLEVELS=4
 export BUILD_WITH_COLORS=1
+
+# CCache
+export USE_CCACHE=1
+export CCACHE_DIR=~/.ccache
 
 REPO=$(which repo)
 if [ -z "$REPO" ]
@@ -53,10 +52,6 @@ then
     check_result "repo init failed."
 fi
 
-# Make sure ccache is in PATH
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
-export CCACHE_DIR=~/.ccache
-
 if [ $SYNC = "true" ]
 then
   echo Syncing...
@@ -81,10 +76,7 @@ fi
 lunch $LUNCH
 check_result "lunch failed."
 
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
-then
-  ccache -M 50G
-fi
+ccache -M 50G
 
 LAST_CLEAN=0
 if [ -f .clean ]
