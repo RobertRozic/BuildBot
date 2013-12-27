@@ -2,11 +2,15 @@ BuildBot
 ========
 
 First starting on Jenkins
+
 Execute shell :
+
       git clone https://github.com/Rox-/BuildBot.git
       
-After that : 
+After that 
+
 Execute shell:
+
       export DH_USER=****
       export DH_PASSWORD=****
       
