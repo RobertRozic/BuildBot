@@ -1,17 +1,6 @@
 #!/usr/bin/env bash
 
-function check_result {
-  if [ "0" -ne "$?" ]
-  then
-    (repo forall -c "git reset --hard") >/dev/null
-    rm -f .repo/local_manifests/dyn-*.xml
-    rm -f .repo/local_manifests/roomservice.xml
-    echo $1
-    exit 1
-  fi
-}
-
-exec ./variables.sh
+. variables.sh
 
 # Colorization fix in Jenkins
 export CL_RED="\"\033[31m\""
@@ -23,12 +12,8 @@ export CL_CYN="\"\033[36m\""
 export CL_RST="\"\033[0m\""
 
 cd $WORKSPACE
-rm -rf archive
-mkdir -p archive
-export BUILD_NO=$BUILD_NUMBER
-unset BUILD_NUMBER
 
-export PATH=~/bin:$PATH
+export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
 export USE_CCACHE=1
 export CCACHE_NLEVELS=4
@@ -52,26 +37,11 @@ fi
 mkdir -p $JENKINS_BUILD_DIR
 cd $JENKINS_BUILD_DIR
 
-# Always force a fresh repo init since we can build off different branches
-# and the "default" upstream branch can get stuck on whatever was init first.
-if [ -z "$CORE_BRANCH" ]
-then
-  CORE_BRANCH=$REPO_BRANCH
-fi
-
-if [ ! -z "$RELEASE_MANIFEST" ]
-then
-  MANIFEST="-m $RELEASE_MANIFEST"
-else
-  RELEASE_MANIFEST=""
-  MANIFEST=""
-fi
-
 if [ $SYNC = "true" ]
 then
     rm -rf .repo/manifests*
     rm -f .repo/local_manifests/dyn-*.xml
-    repo init -u $SYNC_PROTO://github.com/TeamCanjica/android.git -b $CORE_BRANCH $MANIFEST
+    repo init -u $SYNC_PROTO://github.com/TeamCanjica/android.git -b $REPO_BRANCH
     check_result "repo init failed."
 fi
 
@@ -90,12 +60,8 @@ then
 mkdir -p .repo/local_manifests
 rm -f .repo/local_manifest.xml
 
-echo Core Manifest:
+echo Manifest:
 cat .repo/manifest.xml
-
-## TEMPORARY: Some kernels are building _into_ the source tree and messing
-## up posterior syncs due to changes
-rm -rf kernel/*
 
 fi
 
@@ -109,7 +75,7 @@ fi
 
 if [ "$CHERRYPICK_COMMITS" = "true" ]
 then
-  exec cherry-pick.sh
+  . cherry-pick.sh
   check_result "Cherrypicking failed"
 fi
 
@@ -127,22 +93,6 @@ fi
 
 lunch $LUNCH
 check_result "lunch failed."
-
-# save manifest used for build (saving revisions as current HEAD)
-
-# include only the auto-generated locals
-TEMPSTASH=$(mktemp -d)
-mv .repo/local_manifests/* $TEMPSTASH
-mv $TEMPSTASH/roomservice.xml .repo/local_manifests/
-
-# save it
-repo manifest -o $WORKSPACE/archive/manifest.xml -r
-
-# restore all local manifests
-mv $TEMPSTASH/* .repo/local_manifests/ 2>/dev/null
-rmdir $TEMPSTASH
-
-UNAME=$(uname)
 
 if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
 then
@@ -166,8 +116,6 @@ else
   echo "Skipping clean: $TIME_SINCE_LAST_CLEAN hours since last clean."
 fi
 
-echo "$REPO_BRANCH-$CORE_BRANCH$RELEASE_MANIFEST" > .last_branch
-
 if [ $KERNEL_ONLY = "true" ]
 then
   echo "Building kernel only"
@@ -187,7 +135,7 @@ then
     time mka $PACKAGE_NAME
     echo "Package build finished"
 # TODO: Make single package upload script
-#		exec ./package_upload.sh
+#	. package_upload.sh
     exit 0
   fi
 fi
@@ -195,59 +143,5 @@ fi
 time make -j6 bacon
 check_result "Build failed."
 
-for f in $(ls $OUT/cm-*.zip*)
-do
-  ln $f $WORKSPACE/archive/$(basename $f)
-done
-if [ -f $OUT/utilties/update.zip ]
-then
-  cp $OUT/utilties/update.zip $WORKSPACE/archive/recovery.zip
-fi
-if [ -f $OUT/recovery.img ]
-then
-  cp $OUT/recovery.img $WORKSPACE/archive
-fi
-
-# archive the build.prop as well
-ZIP=$(ls $WORKSPACE/archive/cm-*.zip)
-unzip -p $ZIP system/build.prop > $WORKSPACE/archive/build.prop
-
-# CORE: save manifest used for build (saving revisions as current HEAD)
-rm -f .repo/local_manifests/dyn-$REPO_BRANCH.xml
-rm -f .repo/local_manifests/roomservice.xml
-
-# Stash away other possible manifests
-TEMPSTASH=$(mktemp -d)
-mv .repo/local_manifests $TEMPSTASH
-
-repo manifest -o $WORKSPACE/archive/core.xml -r
-
-mv $TEMPSTASH/local_manifests .repo
-rmdir $TEMPSTASH
-
-# chmod the files in case UMASK blocks permissions
-chmod -R ugo+r $WORKSPACE/archive
-
-CMCP=$(which cmcp)
-if [ ! -z "$CMCP" -a ! -z "$CM_RELEASE" ]
-then
-  MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.modversion | cut -d = -f 2)
-  if [ -z "$MODVERSION" ]
-  then
-    MODVERSION=$(cat $WORKSPACE/archive/build.prop | grep ro.cm.version | cut -d = -f 2)
-  fi
-  if [ -z "$MODVERSION" ]
-  then
-    echo "Unable to detect ro.modversion or ro.cm.version."
-    exit 1
-  fi
-  echo Archiving release to S3.
-  for f in $(ls $WORKSPACE/archive)
-  do
-    cmcp $WORKSPACE/archive/$f release/$MODVERSION/$f > /dev/null 2> /dev/null
-    check_result "Failure archiving $f"
-  done
-fi
-
 # Upload
-exec ./upload.sh
+. upload.sh

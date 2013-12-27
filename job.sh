@@ -1,13 +1,6 @@
 #!/usr/bin/env bash
 
-if [ -z "$HOME" ]
-then
-  echo HOME not in environment, guessing...
-  export HOME=$(awk -F: -v v="$USER" '{if ($1==v) print $6}' /etc/passwd)
-fi
-
 cd $WORKSPACE
-export WORKSPACE=$PWD
 
 if [ ! -d BuildBot ]
 then
@@ -26,9 +19,9 @@ fi
 
 if [ $UL_ONLY = "false" ]
 then
-exec ./build.sh
+. build.sh
 elif [ $UL_ONLY = "true" ]
 then
-exec ./variables.sh
-exec ./upload.sh
+. variables.sh
+. upload.sh
 fi

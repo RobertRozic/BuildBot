@@ -1,5 +1,4 @@
 export DH_USER=****
 export DH_PASSWORD=****
-export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
 $WORKSPACE/BuildBot/job.sh
