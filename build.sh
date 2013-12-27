@@ -68,7 +68,7 @@ fi
 
 if [ $ROM_NAME = "cm_" ]
 then
-    . BuildBot/cm-setup.sh
+  ./vendor/cm/get-prebuilts
 fi
 
 . build/envsetup.sh
