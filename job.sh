@@ -22,6 +22,7 @@ then
 . build.sh
 elif [ $UL_ONLY = "true" ]
 then
-. variables.sh
-. upload.sh
+cd $WORKSPACE
+. BuildBot/variables.sh
+. BuildBot/upload.sh
 fi
