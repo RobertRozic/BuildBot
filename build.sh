@@ -49,11 +49,6 @@ fi
 export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.ccache
 
-if [ -f ~/.jenkins_profile ]
-then
-  . ~/.jenkins_profile
-fi
-
 if [ $SYNC = "true" ]
 then
   echo Syncing...
@@ -64,18 +59,13 @@ fi
 
 if [ $CHERRYPICK_COMMITS = "true" ]
 then
-  . cherry-pick.sh
+  . BuildBot/cherry-pick.sh
   check_result "Cherrypicking failed"
 fi
 
-if [ -f $WORKSPACE/BuildBot/$REPO_BRANCH-setup.sh ]
+if [ $ROM_NAME = "cm_" ]
 then
-  $WORKSPACE/BuildBot/$REPO_BRANCH-setup.sh
-else
-  if [ -f $WORKSPACE/BuildBot/$REPO_BRANCH-setup.sh ]
-  then
-    $WORKSPACE/BuildBot/cm-setup.sh
-  fi 
+    . BuildBot/cm-setup.sh
 fi
 
 . build/envsetup.sh
@@ -124,7 +114,7 @@ then
     time mka $PACKAGE_NAME
     echo "Package build finished"
 # TODO: Make single package upload script
-#	. package_upload.sh
+#	. BuildBot/package_upload.sh
     exit 0
   fi
 fi
@@ -133,4 +123,4 @@ time make -j6 bacon
 check_result "Build failed."
 
 # Upload
-. upload.sh
+. BuildBot/upload.sh

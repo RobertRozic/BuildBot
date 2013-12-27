@@ -23,7 +23,7 @@ fi
 
 if [ $UPLOAD = "true" ]
 then
-  if [ "$REPO_BRANCH" = "jellybean" ] || [ $REPO_BRANCH = "cm-10" ] || [ $REPO_BRANCH = "cm-10.1" ] || [ $REPO_BRANCH = "cm-10.2" ];
+  if [ "$REPO_BRANCH" = "jellybean" ] || [ $REPO_BRANCH = "cm-10.1" ] || [ $REPO_BRANCH = "cm-10.2" ];
   then
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/jellybean/out/target/product/$DEVICE/$REPO_BRANCH*.zip -f $FOLDER -d $DESC -pb  $DH_PUB
 
