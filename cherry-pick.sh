@@ -80,5 +80,4 @@ if [ "$REPO_BRANCH" = "cm-11.0" ] || [ "$REPO_BRANCH" = "omni-4.4" ]
 
 fi
 
-check_result "Cherrypicking failed"
 echo "Cherrypicking Complete"

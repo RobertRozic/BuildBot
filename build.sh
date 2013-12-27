@@ -54,17 +54,6 @@ then
   . ~/.jenkins_profile
 fi
 
-if [ $SINGLE_PACKAGE = "false" ]
-then
-
-mkdir -p .repo/local_manifests
-rm -f .repo/local_manifest.xml
-
-echo Manifest:
-cat .repo/manifest.xml
-
-fi
-
 if [ $SYNC = "true" ]
 then
   echo Syncing...
@@ -73,7 +62,7 @@ then
   echo Sync complete.
 fi
 
-if [ "$CHERRYPICK_COMMITS" = "true" ]
+if [ $CHERRYPICK_COMMITS = "true" ]
 then
   . cherry-pick.sh
   check_result "Cherrypicking failed"
