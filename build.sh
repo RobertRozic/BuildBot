@@ -15,6 +15,8 @@ cd $WORKSPACE
 
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
+export WORKSPACE=$PWD
+export PATH=~/bin:$PATH
 export USE_CCACHE=1
 export CCACHE_NLEVELS=4
 export BUILD_WITH_COLORS=1
