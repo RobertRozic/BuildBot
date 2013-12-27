@@ -17,7 +17,10 @@ then
   echo DevHost Password or user not specified.
   echo Upload will be skipped
   export UPLOAD=false
-else
+fi
+
+if [ $UPLOAD != "false" ]
+then
   export UPLOAD=true
 fi
 
