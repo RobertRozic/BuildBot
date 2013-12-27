@@ -1,13 +1,7 @@
 #!/usr/bin/env bash
 
-cd $WORKSPACE
-
-if [ ! -d BuildBot ]
-then
-  git clone git://github.com/Rox-/BuildBot.git
-fi
-
 cd BuildBot
+
 ## Get rid of possible local changes
 git reset --hard
 git pull -s resolve
