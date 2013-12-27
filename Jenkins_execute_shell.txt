@@ -1,4 +1,0 @@
-export DH_USER=****
-export DH_PASSWORD=****
-
-$WORKSPACE/BuildBot/job.sh
