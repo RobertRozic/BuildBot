@@ -100,6 +100,8 @@ then
   echo "Building kernel only"
   time mka bootimage
   echo "Kernel build finished"
+# TODO: Rework upload.sh to upload kernel only
+#	. BuildBot/upload.sh
   exit 0
 fi
 
@@ -113,8 +115,8 @@ then
     echo "Building single package only: $PACKAGE_NAME"
     time mka $PACKAGE_NAME
     echo "Package build finished"
-# TODO: Make single package upload script
-#	. BuildBot/package_upload.sh
+# TODO: Rework upload.sh to upload single package
+#	. BuildBot/upload.sh
     exit 0
   fi
 fi
