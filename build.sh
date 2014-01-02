@@ -28,17 +28,11 @@ then
   chmod a+x ~/bin/repo
 fi
 
-if [ "$REPO_BRANCH" = "jellybean" ] || [ $REPO_BRANCH = "cm-10.1" ] || [ $REPO_BRANCH = "cm-10.2" ];
+if [ "$REPO_BRANCH" = "omni-4.3" ] || [ $REPO_BRANCH = "omni-4.4" ];
 then 
-   JENKINS_BUILD_DIR=jellybean
-elif [ "$REPO_BRANCH" = "cm-11.0" ] || [ "$REPO_BRANCH" = "cm-11.0-test" ]
-then
-   JENKINS_BUILD_DIR=kitkat
-elif [ "$REPO_BRANCH" = "omni-4.3" ] || [ "$REPO_BRANCH" = "omni-4.4" ]
-then
    JENKINS_BUILD_DIR=omni
 else
-   JENKINS_BUILD_DIR=$REPO_BRANCH
+   JENKINS_BUILD_DIR=cm
 fi
 
 mkdir -p $JENKINS_BUILD_DIR
