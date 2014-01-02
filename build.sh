@@ -1,7 +1,5 @@
 #!/usr/bin/env bash
 
-. variables.sh
-
 # Colorization fix in Jenkins
 export CL_RED="\"\033[31m\""
 export CL_GRN="\"\033[32m\""
@@ -10,11 +8,9 @@ export CL_BLU="\"\033[34m\""
 export CL_MAG="\"\033[35m\""
 export CL_CYN="\"\033[36m\""
 export CL_RST="\"\033[0m\""
-
-cd $WORKSPACE
+export BUILD_WITH_COLORS=1
 
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
-export BUILD_WITH_COLORS=1
 
 # CCache
 export USE_CCACHE=1
@@ -65,7 +61,7 @@ fi
 
 if [ $ROM_NAME = "cm_" ]
 then
-  ./vendor/cm/get-prebuilts
+./vendor/cm/get-prebuilts
 fi
 
 . build/envsetup.sh
