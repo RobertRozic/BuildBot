@@ -2,7 +2,7 @@
 
 cd BuildBot
 
-## Get rid of possible local changes
+# Get rid of possible local changes
 git reset --hard
 git pull -s resolve
 
@@ -11,12 +11,13 @@ then
 export UL_ONLY=false
 fi
 
+. variables.sh
+
 if [ $UL_ONLY = "false" ]
 then
 . build.sh
 elif [ $UL_ONLY = "true" ]
 then
 cd $WORKSPACE
-. BuildBot/variables.sh
 . BuildBot/upload.sh
 fi
