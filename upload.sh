@@ -12,21 +12,9 @@ then
   DESC=None
 fi
 
-if [ -z "$DH_PASSWORD" ] || [ -z "$DH_USER" ]
+if [ $ROM_NAME = "cm_" ]
 then
-  echo DevHost Password or user not specified.
-  echo Upload will be skipped
-  export UPLOAD=false
-fi
-
-if [ $UPLOAD != "false" ]
-then
-
-  if [ $ROM_NAME = "cm_" ]
-  then
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$JENKINS_BUILD_DIR/out/target/product/$DEVICE/cm-*.zip -f $FOLDER -d $DESC -pb  $DH_PUB
-
-  else
+else
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$JENKINS_BUILD_DIR/out/target/product/$DEVICE/$REPO_BRANCH*.zip -f $FOLDER -d $DESC -pb  $DH_PUB
-
 fi

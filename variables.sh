@@ -47,6 +47,14 @@ else
   export UPLOAD=false
 fi
 
+# DevHost Nickname and password
+if [ -z "$DH_PASSWORD" ] || [ -z "$DH_USER" ]
+then
+  echo DevHost Password or user not specified.
+  echo Upload will be skipped
+  export UPLOAD=false
+fi
+
 # Clean directory before building
 if [ -z "$CLEAN" ]
 then

@@ -94,7 +94,10 @@ then
   time mka bootimage
   echo "Kernel build finished"
 # TODO: Rework upload.sh to upload kernel only
-#	. BuildBot/upload.sh
+#	 if [ $UPLOAD != "false" ]
+#    then
+#	 . BuildBot/upload.sh
+#    fi
   exit 0
 fi
 
@@ -109,7 +112,10 @@ then
     time mka $PACKAGE_NAME
     echo "Package build finished"
 # TODO: Rework upload.sh to upload single package
-#	. BuildBot/upload.sh
+#	 if [ $UPLOAD != "false" ]
+#    then
+#	 . BuildBot/upload.sh
+#    fi
     exit 0
   fi
 fi
@@ -118,4 +124,7 @@ time make -j6 bacon
 check_result "Build failed."
 
 # Upload
+if [ $UPLOAD != "false" ]
+then
 . BuildBot/upload.sh
+fi
