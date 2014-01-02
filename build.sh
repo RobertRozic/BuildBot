@@ -28,11 +28,14 @@ then
   chmod a+x ~/bin/repo
 fi
 
-if [ "$REPO_BRANCH" = "omni-4.3" ] || [ $REPO_BRANCH = "omni-4.4" ];
+if [ $ROM_NAME = "cm_" ]
 then 
+   JENKINS_BUILD_DIR=cm
+elif [ $ROM_NAME = "omni_" ]
+then
    JENKINS_BUILD_DIR=omni
 else
-   JENKINS_BUILD_DIR=cm
+   JENKINS_BUILD_DIR=$REPO_BRANCH
 fi
 
 mkdir -p $JENKINS_BUILD_DIR
