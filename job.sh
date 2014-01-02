@@ -11,13 +11,13 @@ then
 export UL_ONLY=false
 fi
 
+cd $WORKSPACE
 . variables.sh
 
 if [ $UL_ONLY = "false" ]
 then
-. build.sh
+. BuildBot/build.sh
 elif [ $UL_ONLY = "true" ]
 then
-cd $WORKSPACE
 . BuildBot/upload.sh
 fi
