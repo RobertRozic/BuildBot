@@ -6,18 +6,18 @@ cd BuildBot
 git reset --hard
 git pull -s resolve
 
+# Upload only
 if [ -z "$UL_ONLY" ]
 then
 export UL_ONLY=false
 fi
 
 cd $WORKSPACE
-. variables.sh
+. BuildBot/variables.sh
 
 if [ $UL_ONLY = "false" ]
 then
 . BuildBot/build.sh
-elif [ $UL_ONLY = "true" ]
-then
+else
 . BuildBot/upload.sh
 fi
