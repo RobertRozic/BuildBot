@@ -1,15 +1,5 @@
 #!/usr/bin/env bash
 
-# Colorization fix in Jenkins
-export CL_RED="\"\033[31m\""
-export CL_GRN="\"\033[32m\""
-export CL_YLW="\"\033[33m\""
-export CL_BLU="\"\033[34m\""
-export CL_MAG="\"\033[35m\""
-export CL_CYN="\"\033[36m\""
-export CL_RST="\"\033[0m\""
-export BUILD_WITH_COLORS=1
-
 # Fix libraries
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
@@ -36,9 +26,9 @@ then
   rm -rf .repo/manifests*
   rm -f .repo/local_manifests/dyn-*.xml
   repo init -u $SYNC_PROTO://github.com/TeamCanjica/android.git -b $REPO_BRANCH
-  echo "Syncing..."
+  echo -e $CL_BLU"Syncing..."$CL_RST
   repo sync -f -d -c > /dev/null
-  echo "Sync complete."
+  echo -e $CL_GRN"Sync complete."$CL_RST
 fi
 
 # Cherrypicking
@@ -63,19 +53,20 @@ ccache -M 50G
 # Clean
 if [ $CLEAN = "true" ]
 then
-  echo "Cleaning!"
+  echo -e $CL_BLU"Cleaning..."$CL_RST
   make clobber
+  echo -e $CL_GRN"Clean complete!"$CL_RST
 else
-  echo "Cleaning skipped, removing only last built package."
+  echo -e $CL_YLW"Cleaning skipped, removing only last built package."$CL_RST
   rm out/target/product/$DEVICE/cm-*
 fi
 
 # Kernel only
 if [ $KERNEL_ONLY = "true" ]
 then
-  echo "Building kernel only"
+  echo -e $CL_BLU"Building kernel only..."$CL_RST
   time mka bootimage
-  echo "Kernel build finished"
+  echo -e $CL_GRN"Kernel build finished!"$CL_RST
 	if [ $UPLOAD != "false" ]
     then
 	  . BuildBot/upload.sh
@@ -88,12 +79,12 @@ if [ $SINGLE_PACKAGE = "true" ]
 then
   if [ $PACKAGE_NAME = "" ]
   then
-    echo "Package name not specified..."
+    echo -e $CL_RED"Package name not specified!"$CL_RST
     exit 1
   else
-    echo "Building single package only: $PACKAGE_NAME"
+    echo -e $CL_BLU"Building single package only: $PACKAGE_NAME"$CL_RST
     time mka $PACKAGE_NAME
-    echo "Package build finished"
+    echo -e $CL_GRN"Package build finished!"$CL_RST
 # TODO: Rework upload.sh to upload single package
 #	 if [ $UPLOAD != "false" ]
 #    then
@@ -104,11 +95,12 @@ then
 fi
 
 # Start build
+echo -e $CL_CYN"Building..."$CL_RST
 time make -j6 bacon
 
 # Upload
 if [ $UPLOAD = "true" ]
 then
-  echo "Starting upload"
+  echo -e $CL_BLU"Uploading..."$CL_RST
   . BuildBot/upload.sh
 fi

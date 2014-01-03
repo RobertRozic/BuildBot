@@ -3,7 +3,7 @@
 # Branch to sync and build
 if [ -z "$REPO_BRANCH" ]
 then
-  echo "REPO_BRANCH not specified"
+  echo -e $CL_RED"REPO_BRANCH not specified"$CL_RST
   exit 1
 fi
 
@@ -19,7 +19,7 @@ case $REPO_BRANCH in
                 ;;
  
         *)
-                echo "ROM not supported. Define ROM name in variables.sh."
+                echo  -e $CL_RED"ROM not supported. Define ROM name in variables.sh."$CL_RST
                 exit 1
                 ;;
 esac
@@ -27,7 +27,7 @@ esac
 # Device name to build
 if [ -z "$DEVICE" ]
 then
-  echo "DEVICE not specified"
+  echo  -e $CL_RED"DEVICE not specified"$CL_RST
   exit 1
 fi
 
@@ -45,8 +45,8 @@ export LUNCH=""$ROM_NAME"_"$DEVICE"-"$DEBUG""
 # DevHost informations : Nickname, password and upload folder
 if [ -z "$DH_PASSWORD" ] || [ -z "$DH_USER" ]
 then
-  echo "DevHost Password or user not specified."
-  echo "Upload will be skipped"
+  echo  -e $CL_YLW"DevHost Password or user not specified."$CL_RST
+  echo  -e $CL_YLW"Upload will be skipped"$CL_RST
   export UPLOAD="false"
 else
   export UPLOAD="true"
@@ -60,7 +60,7 @@ else
   then
     export FOLDER="26296"
   else
-  echo "Device upload not supported"
+  echo  -e $CL_YLW"Device upload not supported"$CL_RST
   export UPLOAD="false"
   fi
 fi
@@ -68,7 +68,7 @@ fi
 # Clean directory before building
 if [ -z "$CLEAN" ]
 then
-  echo "CLEAN not specified"
+  echo -e $CL_RED"CLEAN not specified"$CL_RST
   exit 1
 fi
 
