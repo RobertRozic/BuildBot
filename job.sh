@@ -19,7 +19,7 @@ export BUILD_WITH_COLORS=1
 echo -e $CL_BLU"*************************************************"$CL_RST 
 echo -e $CL_BLU"*   _____                                       *"$CL_RST      
 echo -e $CL_BLU"*  /__   \___  __ _ _ __ ___                    *"$CL_RST      
-echo -e $CL_BLU"*    / /\/ _ \/ _` | '_ ' _ \                   *"$CL_RST      
+echo -e $CL_BLU"*    / /\/ _ \/ _' | '_ ' _ \                   *"$CL_RST      
 echo -e $CL_BLU"*   / / |  __/ (_| | | | | | |                  *"$CL_RST      
 echo -e $CL_BLU"*   \/   \___|\__,_|_| |_| |_|                  *"$CL_RST                                        
 echo -e $CL_BLU"*               ___             _ _             *"$CL_RST
