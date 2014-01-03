@@ -116,5 +116,5 @@ check_result "Build failed."
 # Upload
 if [ $UPLOAD != "false" ]
 then
-. BuildBot/upload.sh
+  . BuildBot/upload.sh
 fi
