@@ -15,10 +15,10 @@ then
 fi
 
 # Rom name
-if [ $REPO_BRANCH =~ "cm-" ]
+if [ "$REPO_BRANCH" =~ "cm-" ]]
 then
   export ROM_NAME="cm_"
-elif [ $REPO_BRANCH =~ "omni-" ]
+elif [ "$REPO_BRANCH" =~ "omni-" ]
 then
   export ROM_NAME="omni_"
 else
