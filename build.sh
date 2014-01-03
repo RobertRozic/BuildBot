@@ -30,8 +30,6 @@ then
 elif [ $ROM_NAME = "omni_" ]
 then
    JENKINS_BUILD_DIR=omni
-else
-   JENKINS_BUILD_DIR=$REPO_BRANCH
 fi
 
 mkdir -p $JENKINS_BUILD_DIR
@@ -47,10 +45,10 @@ fi
 
 if [ $SYNC = "true" ]
 then
-  echo Syncing...
+  echo "Syncing..."
   repo sync -f -d -c > /dev/null
   check_result "repo sync failed."
-  echo Sync complete.
+  echo "Sync complete."
 fi
 
 if [ $CHERRYPICK_COMMITS = "true" ]
@@ -61,7 +59,7 @@ fi
 
 if [ $ROM_NAME = "cm_" ]
 then
-./vendor/cm/get-prebuilts
+  ./vendor/cm/get-prebuilts
 fi
 
 . build/envsetup.sh
@@ -71,21 +69,13 @@ check_result "lunch failed."
 
 ccache -M 50G
 
-LAST_CLEAN=0
-if [ -f .clean ]
-then
-  LAST_CLEAN=$(date -r .clean +%s)
-fi
-TIME_SINCE_LAST_CLEAN=$(expr $(date +%s) - $LAST_CLEAN)
-# convert this to hours
-TIME_SINCE_LAST_CLEAN=$(expr $TIME_SINCE_LAST_CLEAN / 60 / 60)
-if [ $TIME_SINCE_LAST_CLEAN -gt "24" -o $CLEAN = "true" ]
+if [ $CLEAN = "true" ]
 then
   echo "Cleaning!"
-  touch .clean
   make clobber
 else
-  echo "Skipping clean: $TIME_SINCE_LAST_CLEAN hours since last clean."
+  echo "Cleaning skipped, removing only last built package."
+  rm out/target/product/$DEVICE/cm-*
 fi
 
 if [ $KERNEL_ONLY = "true" ]
@@ -96,7 +86,7 @@ then
 # TODO: Rework upload.sh to upload kernel only
 #	 if [ $UPLOAD != "false" ]
 #    then
-#	 . BuildBot/upload.sh
+#	   . BuildBot/upload.sh
 #    fi
   exit 0
 fi
@@ -114,7 +104,7 @@ then
 # TODO: Rework upload.sh to upload single package
 #	 if [ $UPLOAD != "false" ]
 #    then
-#	 . BuildBot/upload.sh
+#	   . BuildBot/upload.sh
 #    fi
     exit 0
   fi
