@@ -33,19 +33,16 @@ fi
 
 # Rom name and build directory
 case $REPO_BRANCH in
-       
-        "cm-"*)
-                export ROM_NAME="cm"
-                ;;
- 
-        "omni-"*)
-                export ROM_NAME="omni"
-                ;;
- 
-        *)
-                echo  -e $CL_RED"ROM not supported. Define ROM name in variables.sh."$CL_RST
-                exit 1
-                ;;
+"cm-"*)
+  export ROM_NAME="cm"
+  ;;
+"omni-"*)
+  export ROM_NAME="omni"
+  ;;
+*)
+  echo  -e $CL_RED"ROM not supported. Define ROM name in variables.sh."$CL_RST
+  exit 1
+  ;;
 esac
 
 # Device name to build
@@ -74,19 +71,20 @@ then
   export UPLOAD="false"
 else
   export UPLOAD="true"
-  if [ $DEVICE = "codina" ]
-  then
+  case $REPO_BRANCH in 
+  "codina")
     export FOLDER="26295"
-  elif [ $DEVICE = "codinap" ]
-  then
-    export FOLDER="29956"
-  elif [ $DEVICE = "janice" ]
-  then
+    ;;
+  "codinap")
     export FOLDER="26296"
-  else
-  echo  -e $CL_YLW"Device upload not supported"$CL_RST
-  export UPLOAD="false"
-  fi
+    ;;
+  "janice")
+    export FOLDER="26296"
+    ;;
+  *)
+    echo  -e $CL_YLW"Device upload not supported"$CL_RST
+    export UPLOAD="false"
+  esac
 fi
 
 # Clean directory before building
