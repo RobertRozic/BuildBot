@@ -36,10 +36,8 @@ then
   rm -rf .repo/manifests*
   rm -f .repo/local_manifests/dyn-*.xml
   repo init -u $SYNC_PROTO://github.com/TeamCanjica/android.git -b $REPO_BRANCH
-  check_result "repo init failed."
   echo "Syncing..."
   repo sync -f -d -c > /dev/null
-  check_result "repo sync failed."
   echo "Sync complete."
 fi
 
@@ -47,7 +45,6 @@ fi
 if [ $CHERRYPICK_COMMITS = "true" ]
 then
   . BuildBot/cherry-pick.sh
-  check_result "Cherrypicking failed"
 fi
 
 # Get prebuilts
@@ -59,7 +56,6 @@ fi
 # Set environment and lunch
 . build/envsetup.sh
 lunch $LUNCH
-check_result "lunch failed."
 
 # CCache max size
 ccache -M 50G
@@ -109,7 +105,6 @@ fi
 
 # Start build
 time make -j6 bacon
-check_result "Build failed."
 
 # Upload
 if [ $UPLOAD != "false" ]

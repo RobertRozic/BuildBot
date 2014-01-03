@@ -13,5 +13,4 @@ else
   fi
 fi
 
-check_result "Upload failed."
 echo "Upload finished."
