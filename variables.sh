@@ -1,12 +1,5 @@
 #!/usr/bin/env bash
 
-# Device name to build
-if [ -z "$DEVICE" ]
-then
-  echo "DEVICE not specified"
-  exit 1
-fi
-
 # Branch to sync and build
 if [ -z "$REPO_BRANCH" ]
 then
@@ -14,15 +7,27 @@ then
   exit 1
 fi
 
-# Rom name
-if [ "$REPO_BRANCH" =~ "cm-" ]
+# Rom name and build directory
+case $REPO_BRANCH in
+       
+        "cm-"*)
+                export ROM_NAME="cm"
+                ;;
+ 
+        "omni-"*)
+                export ROM_NAME="omni"
+                ;;
+ 
+        *)
+                echo "ROM not supported. Define ROM name in variables.sh."
+                exit 1
+                ;;
+esac
+
+# Device name to build
+if [ -z "$DEVICE" ]
 then
-  export ROM_NAME="cm_"
-elif [ "$REPO_BRANCH" =~ "omni-" ]
-then
-  export ROM_NAME="omni_"
-else
-  echo "ROM not supported."
+  echo "DEVICE not specified"
   exit 1
 fi
 
@@ -35,7 +40,7 @@ else
 fi
 
 # Lunch
-export LUNCH="$ROM_NAME$DEVICE-$DEBUG"
+export LUNCH=""$ROM_NAME"_"$DEVICE"-"$DEBUG""
 
 # Upload folder
 if [ $DEVICE = "codina" ]

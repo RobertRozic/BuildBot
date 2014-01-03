@@ -26,15 +26,7 @@ then
   chmod a+x ~/bin/repo
 fi
 
-# Building directory
-if [ $ROM_NAME = "cm_" ]
-then 
-  export JENKINS_BUILD_DIR="cm"
-elif [ $ROM_NAME = "omni_" ]
-then
-  export JENKINS_BUILD_DIR="omni"
-fi
-
+export JENKINS_BUILD_DIR="$ROM_NAME"
 mkdir -p $JENKINS_BUILD_DIR
 cd $JENKINS_BUILD_DIR
 
