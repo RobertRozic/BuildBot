@@ -107,7 +107,7 @@ fi
 time make -j6 bacon
 
 # Upload
-if [ $UPLOAD != "false" ]
+if [ $UPLOAD = "true" ]
 then
   echo "Starting upload"
   . BuildBot/upload.sh
