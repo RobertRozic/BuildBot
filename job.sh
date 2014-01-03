@@ -16,19 +16,19 @@ export CL_CYN="\"\033[36m\""
 export CL_RST="\"\033[0m\""
 export BUILD_WITH_COLORS=1
 
-echo -e $CL_BLU" *************************************************  "$CL_RST 
-echo -e $CL_BLU" *   _____                                       *  "$CL_RST      
-echo -e $CL_BLU" *  /__   \___  __ _ _ __ ___                    *  "$CL_RST      
-echo -e $CL_BLU" *    / /\/ _ \/ _` | '_ ` _ \                   *  "$CL_RST      
-echo -e $CL_BLU" *   / / |  __/ (_| | | | | | |                  *  "$CL_RST      
-echo -e $CL_BLU" *   \/   \___|\__,_|_| |_| |_|                  *  "$CL_RST                                        
-echo -e $CL_BLU" *               ___             _ _             *  "$CL_RST
-echo -e $CL_BLU" *              / __\__ _ _ __  (_|_) ___ __ _   *  "$CL_RST
-echo -e $CL_BLU" *             / /  / _` | '_ \ | | |/ __/ _` |  *  "$CL_RST
-echo -e $CL_BLU" *            / /__| (_| | | | || | | (_| (_| |  *  "$CL_RST
-echo -e $CL_BLU" *            \____/\__,_|_| |_|/ |_|\___\__,_|  *  "$CL_RST
-echo -e $CL_BLU" *                            |__/               *  "$CL_RST
-echo -e $CL_BLU" *************************************************  "$CL_RST
+echo -e $CL_BLU"*************************************************"$CL_RST 
+echo -e $CL_BLU"*   _____                                       *"$CL_RST      
+echo -e $CL_BLU"*  /__   \___  __ _ _ __ ___                    *"$CL_RST      
+echo -e $CL_BLU"*    / /\/ _ \/ _` | '_ ' _ \                   *"$CL_RST      
+echo -e $CL_BLU"*   / / |  __/ (_| | | | | | |                  *"$CL_RST      
+echo -e $CL_BLU"*   \/   \___|\__,_|_| |_| |_|                  *"$CL_RST                                        
+echo -e $CL_BLU"*               ___             _ _             *"$CL_RST
+echo -e $CL_BLU"*              / __\__ _ _ __  (_|_) ___ __ _   *"$CL_RST
+echo -e $CL_BLU"*             / /  / _' | '_ \ | | |/ __/ _' |  *"$CL_RST
+echo -e $CL_BLU"*            / /__| (_| | | | || | | (_| (_| |  *"$CL_RST
+echo -e $CL_BLU"*            \____/\__,_|_| |_|/ |_|\___\__,_|  *"$CL_RST
+echo -e $CL_BLU"*                            |__/               *"$CL_RST
+echo -e $CL_BLU"*************************************************"$CL_RST
 
 # Upload only
 if [ -z "$UL_ONLY" ]
