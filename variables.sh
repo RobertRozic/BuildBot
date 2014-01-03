@@ -42,27 +42,27 @@ fi
 # Lunch
 export LUNCH=""$ROM_NAME"_"$DEVICE"-"$DEBUG""
 
-# Upload folder
-if [ $DEVICE = "codina" ]
-then
-  export FOLDER="26295"
-elif [ $DEVICE = "codinap" ]
-then
-  export FOLDER="29956"
-elif [ $DEVICE = "janice" ]
-then
-  export FOLDER="26296"
-else
-  echo "Device upload not supported"
-  export UPLOAD="false"
-fi
-
-# DevHost Nickname and password
+# DevHost informations : Nickname, password and upload folder
 if [ -z "$DH_PASSWORD" ] || [ -z "$DH_USER" ]
 then
   echo "DevHost Password or user not specified."
   echo "Upload will be skipped"
   export UPLOAD="false"
+else
+  export UPLOAD="true"
+  if [ $DEVICE = "codina" ]
+  then
+    export FOLDER="26295"
+  elif [ $DEVICE = "codinap" ]
+  then
+    export FOLDER="29956"
+  elif [ $DEVICE = "janice" ]
+  then
+    export FOLDER="26296"
+  else
+  echo "Device upload not supported"
+  export UPLOAD="false"
+  fi
 fi
 
 # Clean directory before building
