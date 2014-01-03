@@ -6,8 +6,7 @@ export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 # CCache
 export USE_CCACHE=1
 export PATH=~/bin:$PATH
-export WORKSPACE=$PWD
-export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
+export PATH="$PATH:/opt/local/bin/:$WORKSPACE/$ROM_NAME/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.ccache
 
 # Install Repo if not installed
