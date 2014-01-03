@@ -5,6 +5,9 @@ export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
 # CCache
 export USE_CCACHE=1
+export PATH=~/bin:$PATH
+export WORKSPACE=$PWD
+export PATH="$PATH:/opt/local/bin/:$PWD/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.ccache
 
 # Install Repo if not installed
@@ -34,7 +37,7 @@ fi
 # Cherrypicking
 if [ $CHERRYPICK_COMMITS = "true" ]
 then
-  . BuildBot/cherry-pick.sh
+  . $WORKSPACE/BuildBot/cherry-pick.sh
 fi
 
 # Get prebuilts
@@ -48,7 +51,10 @@ fi
 lunch $LUNCH
 
 # CCache max size
-ccache -M 50G
+if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
+then
+  ccache -M 50G
+fi
 
 # Clean
 if [ $CLEAN = "true" ]
@@ -69,7 +75,7 @@ then
   echo -e $CL_GRN"Kernel build finished!"$CL_RST
 	if [ $UPLOAD != "false" ]
     then
-	  . BuildBot/upload.sh
+	  . $WORKSPACE/BuildBot/upload.sh
     fi
   exit 0
 fi
@@ -88,7 +94,7 @@ then
 # TODO: Rework upload.sh to upload single package
 #	 if [ $UPLOAD != "false" ]
 #    then
-#	   . BuildBot/upload.sh
+#	   . $WORKSPACE/BuildBot/upload.sh
 #    fi
     exit 0
   fi
@@ -102,5 +108,5 @@ time make -j6 bacon
 if [ $UPLOAD = "true" ]
 then
   echo -e $CL_BLU"Uploading..."$CL_RST
-  . BuildBot/upload.sh
+  . $WORKSPACE/BuildBot/upload.sh
 fi
