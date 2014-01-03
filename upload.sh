@@ -13,4 +13,4 @@ else
   fi
 fi
 
-echo -E $CL_GRN"Upload finished."$CL_RST
+echo -e $CL_GRN"Upload finished."$CL_RST
