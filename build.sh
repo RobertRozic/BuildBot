@@ -18,6 +18,7 @@ then
   chmod a+x ~/bin/repo
 fi
 
+# Build directory
 export JENKINS_BUILD_DIR="$ROM_NAME"
 mkdir -p $JENKINS_BUILD_DIR
 cd $JENKINS_BUILD_DIR
