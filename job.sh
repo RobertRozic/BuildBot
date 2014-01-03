@@ -1,5 +1,11 @@
 #!/usr/bin/env bash
 
+cd BuildBot
+
+# Get rid of possible local changes
+git reset --hard
+git pull -s resolve
+
 # Colorization fix in Jenkins
 export CL_RED="\"\033[31m\""
 export CL_GRN="\"\033[32m\""
@@ -23,12 +29,6 @@ echo -e $CL_BLU" *            / /__| (_| | | | || | | (_| (_| |  *  "$CL_RST
 echo -e $CL_BLU" *            \____/\__,_|_| |_|/ |_|\___\__,_|  *  "$CL_RST
 echo -e $CL_BLU" *                            |__/               *  "$CL_RST
 echo -e $CL_BLU" *************************************************  "$CL_RST
- 
-cd BuildBot
-
-# Get rid of possible local changes
-git reset --hard
-git pull -s resolve
 
 # Upload only
 if [ -z "$UL_ONLY" ]
