@@ -63,7 +63,7 @@ then
   echo -e $CL_GRN"Clean complete!"$CL_RST
 else
   echo -e $CL_YLW"Cleaning skipped, removing only last built package."$CL_RST
-  rm out/target/product/$DEVICE/cm-*
+  rm -f out/target/product/$DEVICE/cm-*
 fi
 
 # Kernel only
