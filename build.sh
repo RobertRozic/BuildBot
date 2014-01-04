@@ -70,13 +70,6 @@ else
   rm -f out/target/product/$DEVICE/cm-*
 fi
 
-# Kernel only
-if [ $KERNEL_ONLY = "true" ]
-then
-  export SINGLE_PACKAGE="true"
-  export PACKAGE_NAME="bootimage"
-fi
-
 # Single package
 if [ $SINGLE_PACKAGE = "true" ]
 then
