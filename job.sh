@@ -1,8 +1,7 @@
 #!/usr/bin/env bash
 
-cd BuildBot
-
 # Get rid of possible local changes
+cd BuildBot
 git reset --hard
 git pull -s resolve
 
@@ -10,7 +9,7 @@ git pull -s resolve
 cd $WORKSPACE
 . BuildBot/variables.sh
 
-# Upload only
+# Start build script
 case $UL_ONLY in 
 "true")
   echo -e $CL_YLW"Skipping build and starting upload..."$CL_RST
