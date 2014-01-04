@@ -15,6 +15,7 @@ export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
 # CCache
 export USE_CCACHE=1
+export CCACHE_NLEVELS=4
 export PATH=~/bin:$PATH
 export CCACHE_DIR=~/.ccache
 export PATH="$PATH:/opt/local/bin/:$WORKSPACE/$ROM_NAME/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
