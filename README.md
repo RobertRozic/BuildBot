@@ -29,5 +29,6 @@ Parameters:
       Bool   - KERNEL_ONLY*
       Bool   - SINGLE_PACKAGE*
       Text   - DESC *
+      Text   - PACKAGE_NAME*
 
 *If not selected, default values are used
