@@ -22,7 +22,7 @@ Parameters:
       Choice - REPO_BRANCH
       Bool   - CLEAN
       Bool   - DBG
-      Bool   - CHERRYPICK_COMMITS*
+      Bool   - UPLOAD*
       Bool   - PUBLIC*
       Bool   - UL_ONLY*
       Bool   - SYNC*

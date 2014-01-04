@@ -83,12 +83,6 @@ then
   export SINGLE_PACKAGE="false"
 fi
 
-# Cherrypicking
-if [ -z "$CHERRYPICK_COMMITS" ]
-then
-  export CHERRYPICK_COMMITS="true"
-fi
-
 # Sync
 if [ -z "$SYNC" ]
 then

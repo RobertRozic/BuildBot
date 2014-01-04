@@ -38,15 +38,12 @@ then
 fi
 
 # Cherrypicking
-if [ $CHERRYPICK_COMMITS = "true" ]
-then
-  . $WORKSPACE/BuildBot/cherry-pick.sh
-  check_result $CL_RED"Upload failed!"$CL_RST
-  echo -e $CL_GRN"Cherrypicking Complete"$CL_RST
-fi
+. $WORKSPACE/BuildBot/cherry-pick.sh
+check_result $CL_RED"Cherrypicking failed!"$CL_RST
+echo -e $CL_GRN"Cherrypicking Complete"$CL_RST
 
 # Get prebuilts
-if [ $ROM_NAME = "cm_" ]
+if [ $ROM_NAME = "cm" ]
 then
   ./vendor/cm/get-prebuilts
 fi
