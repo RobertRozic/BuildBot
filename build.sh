@@ -71,11 +71,10 @@ else
 fi
 
 # Kernel only
-if [ $KERNEL_ONLY = "true" ]
+if [ $KERNEL_ONLY="true" ]
 then
-  echo -e $CL_BLU"Building kernel only..."$CL_RST
-  time mka bootimage
-  echo -e $CL_GRN"Kernel build finished!"$CL_RST
+  export SINGLE_PACKAGE="true"
+  export PACKAGE_NAME="bootimage"
 fi
 
 # Single package
@@ -89,14 +88,12 @@ then
     echo -e $CL_BLU"Building single package only: $PACKAGE_NAME"$CL_RST
     time mka $PACKAGE_NAME
     echo -e $CL_GRN"Package build finished!"$CL_RST
-# TODO: Rework upload.sh to upload single package.
-	exit 0
 fi
 
 # Start build
-if [ $KERNEL_ONLY = "false" ] && [ $SINGLE_PACKAGE = "false" ]
+if [ $SINGLE_PACKAGE = "false" ]
 then
-  echo -e $CL_CYN"Building..."$CL_RST
+  echo -e $CL_MAG"Building..."$CL_RST
   time make -j6 bacon
   check_result $CL_RED"Build failed!"$CL_RST
 fi

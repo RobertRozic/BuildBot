@@ -27,10 +27,18 @@ else
   esac
 fi
 
-# Start upload
+# Package or kernel upload
 if [ $KERNEL_ONLY = "true" ]
 then
-  time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$ROM_NAME/out/target/product/$DEVICE/boot.img -f $FOLDER -d $DESC -pb  $DH_PUB
+export UL_PATH="$WORKSPACE/$ROM_NAME/out/target/product/$DEVICE/boot.img"
+else
+export UL_PATH=`find -name $PACKAGE_NAME`
+fi
+
+# Start upload
+if [ $SINGLE_PACKAGE = "true" ]
+then
+  time devhost -u $DH_USER -p $DH_PASSWORD upload  $UL_PATH -f $FOLDER -d $DESC -pb  $DH_PUB
 else
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$ROM_NAME/out/target/product/$DEVICE/$ROM_NAME-*.zip -f $FOLDER -d $DESC -pb  $DH_PUB
 fi
