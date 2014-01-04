@@ -71,7 +71,7 @@ then
   export UPLOAD="false"
 else
   export UPLOAD="true"
-  case $REPO_BRANCH in 
+  case $DEVICE in 
   "codina")
     export FOLDER="26295"
     ;;
