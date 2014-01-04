@@ -70,7 +70,7 @@ else
   rm -f out/target/product/$DEVICE/cm-*
 fi
 
-# Single package
+# Start Build
 if [ $SINGLE_PACKAGE = "true" ]
 then
   if [ $PACKAGE_NAME = "" ]
@@ -80,12 +80,9 @@ then
   else
     echo -e $CL_BLU"Building single package only: $PACKAGE_NAME"$CL_RST
     time mka $PACKAGE_NAME
+    check_result $CL_RED"Build failed!"$CL_RST
     echo -e $CL_GRN"Package build finished!"$CL_RST
-fi
-
-# Start build
-if [ $SINGLE_PACKAGE = "false" ]
-then
+else
   echo -e $CL_MAG"Building..."$CL_RST
   time make -j6 bacon
   check_result $CL_RED"Build failed!"$CL_RST
