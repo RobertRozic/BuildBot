@@ -29,7 +29,7 @@ if [ $SYNC = "true" ]
 then
   rm -rf .repo/manifests*
   rm -f .repo/local_manifests/dyn-*.xml
-  repo init -u $SYNC_PROTO://github.com/TeamCanjica/android.git -b $REPO_BRANCH
+  repo init -u https://github.com/TeamCanjica/android.git -b $REPO_BRANCH
   check_result $CL_RED"Repo init failed!"$CL_RST
   echo -e $CL_BLU"Syncing..."$CL_RST
   repo sync -f -d -c > /dev/null

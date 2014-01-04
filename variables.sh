@@ -95,12 +95,6 @@ then
   export SYNC="true"
 fi
 
-# Sync protocol
-if [ -z "$SYNC_PROTO" ]
-then
-  export SYNC_PROTO="https"
-fi
-
 # Upload
 if [ -z "$UPLOAD" ]
 then

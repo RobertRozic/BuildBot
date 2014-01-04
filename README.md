@@ -29,6 +29,5 @@ Parameters:
       Bool   - KERNEL_ONLY*
       Bool   - SINGLE_PACKAGE*
       Text   - DESC *
-      Choice - SYNC_PROTO*
 
 *If not selected, default values are used
