@@ -6,12 +6,6 @@ cd BuildBot
 git reset --hard
 git pull -s resolve
 
-# Upload only
-if [ -z "$UL_ONLY" ]
-then
-export UL_ONLY=false
-fi
-
 # Setting variables
 cd $WORKSPACE
 . BuildBot/variables.sh

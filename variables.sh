@@ -101,6 +101,12 @@ then
   export UPLOAD="true"
 fi
 
+# Upload only
+if [ -z "$UL_ONLY" ]
+then
+export UL_ONLY=false
+fi
+
 # Upload description
 if [ -z "$DESC" ]
 then
