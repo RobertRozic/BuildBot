@@ -79,5 +79,3 @@ then
   fi
 
 fi
-
-echo -e $CL_GRN"Cherrypicking Complete"$CL_RST

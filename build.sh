@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
 
+# Check result function
+function check_result {
+  if [ "0" -ne "$?" ]
+  then
+    (repo forall -c "git reset --hard") >/dev/null
+    rm -f .repo/local_manifests/dyn-*.xml
+    rm -f .repo/local_manifests/roomservice.xml
+    echo $1
+    exit 1
+  fi
+}
+
 # Fix libraries
 export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 
@@ -29,8 +41,10 @@ then
   rm -rf .repo/manifests*
   rm -f .repo/local_manifests/dyn-*.xml
   repo init -u $SYNC_PROTO://github.com/TeamCanjica/android.git -b $REPO_BRANCH
+  check_result $CL_RED"Repo init failed!"$CL_RST
   echo -e $CL_BLU"Syncing..."$CL_RST
   repo sync -f -d -c > /dev/null
+  check_result $CL_RED"Repo sync failed!"$CL_RST
   echo -e $CL_GRN"Sync complete."$CL_RST
 fi
 
@@ -38,6 +52,8 @@ fi
 if [ $CHERRYPICK_COMMITS = "true" ]
 then
   . $WORKSPACE/BuildBot/cherry-pick.sh
+  check_result $CL_RED"Upload failed!"$CL_RST
+  echo -e $CL_GRN"Cherrypicking Complete"$CL_RST
 fi
 
 # Get prebuilts
@@ -49,6 +65,7 @@ fi
 # Set environment and lunch
 . build/envsetup.sh
 lunch $LUNCH
+check_result $CL_RED"Lunch failed!"$CL_RST
 
 # CCache max size
 if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
@@ -103,10 +120,13 @@ fi
 # Start build
 echo -e $CL_CYN"Building..."$CL_RST
 time make -j6 bacon
+ check_result $CL_RED"Build failed!"$CL_RST
 
 # Upload
 if [ $UPLOAD = "true" ]
 then
   echo -e $CL_BLU"Uploading..."$CL_RST
   . $WORKSPACE/BuildBot/upload.sh
+  check_result $CL_RED"Upload failed!"$CL_RST
+  echo -e $CL_GRN"Upload finished."$CL_RST
 fi
