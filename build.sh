@@ -5,8 +5,6 @@ function check_result {
   if [ "0" -ne "$?" ]
   then
     (repo forall -c "git reset --hard") >/dev/null
-    rm -f .repo/local_manifests/dyn-*.xml
-    rm -f .repo/local_manifests/roomservice.xml
     echo $1
     exit 1
   fi
@@ -120,13 +118,4 @@ fi
 # Start build
 echo -e $CL_CYN"Building..."$CL_RST
 time make -j6 bacon
- check_result $CL_RED"Build failed!"$CL_RST
-
-# Upload
-if [ $UPLOAD = "true" ]
-then
-  echo -e $CL_BLU"Uploading..."$CL_RST
-  . $WORKSPACE/BuildBot/upload.sh
-  check_result $CL_RED"Upload failed!"$CL_RST
-  echo -e $CL_GRN"Upload finished."$CL_RST
-fi
+check_result $CL_RED"Build failed!"$CL_RST
