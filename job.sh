@@ -10,20 +10,19 @@ git pull -s resolve
 cd $WORKSPACE
 . BuildBot/variables.sh
 
-# Starting build script
-if [ $UL_ONLY = "false" ]
-then
+# Upload only
+case $UL_ONLY in 
+"true")
+  echo -e $CL_YLW"Skipping build and starting upload..."$CL_RST
+  ;;
+*)
   . BuildBot/build.sh
-fi
+  ;;
+esac
 
 # Upload
 if [ $UPLOAD = "true" ]
 then
   echo -e $CL_BLU"Uploading..."$CL_RST
   . $WORKSPACE/BuildBot/upload.sh
-  if [ "0" -ne "$?" ]
-  then
-  echo -e $CL_GRN"Upload finished."$CL_RST
-  exit 1
-  fi
 fi

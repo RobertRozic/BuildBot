@@ -27,9 +27,17 @@ else
   esac
 fi
 
+# Start upload
 if [ $KERNEL_ONLY = "true" ]
 then
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$ROM_NAME/out/target/product/$DEVICE/boot.img -f $FOLDER -d $DESC -pb  $DH_PUB
 else
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$ROM_NAME/out/target/product/$DEVICE/$ROM_NAME-*.zip -f $FOLDER -d $DESC -pb  $DH_PUB
+fi
+
+# Check if upload is finished corectly
+if [ "0" -ne "$?" ]
+then
+  echo -e $CL_RED"Upload failed."$CL_RST
+  exit 1
 fi

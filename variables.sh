@@ -101,12 +101,6 @@ then
   export UPLOAD="true"
 fi
 
-# Upload only
-if [ -z "$UL_ONLY" ]
-then
-export UL_ONLY=false
-fi
-
 # Upload description
 if [ -z "$DESC" ]
 then
@@ -114,14 +108,11 @@ then
 fi
 
 # Public upload
-if [ -z "$PUBLIC" ]
-then
-  export PUBLIC="false"
-fi
-
-if [ $PUBLIC = "true" ]
-then
-  export DH_PUB="1"
-else
+case $PUBLIC in 
+"false")
   export DH_PUB="0"
-fi
+  ;;
+*)
+  export DH_PUB="1"
+  ;;
+esac
