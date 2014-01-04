@@ -63,30 +63,6 @@ fi
 # Lunch
 export LUNCH=""$ROM_NAME"_"$DEVICE"-"$DEBUG""
 
-# DevHost informations : Nickname, password and upload folder
-if [ -z "$DH_PASSWORD" ] || [ -z "$DH_USER" ]
-then
-  echo  -e $CL_YLW"DevHost Password or user not specified."$CL_RST
-  echo  -e $CL_YLW"Upload will be skipped"$CL_RST
-  export UPLOAD="false"
-else
-  export UPLOAD="true"
-  case $DEVICE in 
-  "codina")
-    export FOLDER="26295"
-    ;;
-  "codinap")
-    export FOLDER="26296"
-    ;;
-  "janice")
-    export FOLDER="26296"
-    ;;
-  *)
-    echo  -e $CL_YLW"Device upload not supported"$CL_RST
-    export UPLOAD="false"
-  esac
-fi
-
 # Clean directory before building
 if [ -z "$CLEAN" ]
 then
@@ -123,6 +99,12 @@ fi
 if [ -z "$SYNC_PROTO" ]
 then
   export SYNC_PROTO="https"
+fi
+
+# Upload
+if [ -z "$UPLOAD" ]
+then
+  export UPLOAD="true"
 fi
 
 # Upload description

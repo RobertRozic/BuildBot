@@ -16,17 +16,8 @@ export LIBRARY_PATH=/usr/lib/x86_64-linux-gnu
 # CCache
 export USE_CCACHE=1
 export PATH=~/bin:$PATH
-export PATH="$PATH:/opt/local/bin/:$WORKSPACE/$ROM_NAME/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 export CCACHE_DIR=~/.ccache
-
-# Install Repo if not installed
-REPO=$(which repo)
-if [ -z "$REPO" ]
-then
-  mkdir -p ~/bin
-  curl https://dl-ssl.google.com/dl/googlesource/git-repo/repo > ~/bin/repo
-  chmod a+x ~/bin/repo
-fi
+export PATH="$PATH:/opt/local/bin/:$WORKSPACE/$ROM_NAME/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
 
 # Build directory
 export JENKINS_BUILD_DIR="$ROM_NAME"
@@ -88,11 +79,6 @@ then
   echo -e $CL_BLU"Building kernel only..."$CL_RST
   time mka bootimage
   echo -e $CL_GRN"Kernel build finished!"$CL_RST
-	if [ $UPLOAD != "false" ]
-    then
-	  . $WORKSPACE/BuildBot/upload.sh
-    fi
-  exit 0
 fi
 
 # Single package
@@ -106,16 +92,14 @@ then
     echo -e $CL_BLU"Building single package only: $PACKAGE_NAME"$CL_RST
     time mka $PACKAGE_NAME
     echo -e $CL_GRN"Package build finished!"$CL_RST
-# TODO: Rework upload.sh to upload single package
-#	 if [ $UPLOAD != "false" ]
-#    then
-#	   . $WORKSPACE/BuildBot/upload.sh
-#    fi
-    exit 0
-  fi
+# TODO: Rework upload.sh to upload single package.
+	exit 0
 fi
 
 # Start build
-echo -e $CL_CYN"Building..."$CL_RST
-time make -j6 bacon
-check_result $CL_RED"Build failed!"$CL_RST
+if [ $KERNEL_ONLY = "false" ] && [ $SINGLE_PACKAGE = "false" ]
+then
+  echo -e $CL_CYN"Building..."$CL_RST
+  time make -j6 bacon
+  check_result $CL_RED"Build failed!"$CL_RST
+fi

@@ -1,5 +1,31 @@
 #!/usr/bin/env bash
 
+# DevHost informations : Nickname, password and upload folder
+if [ -z "$DH_PASSWORD" ] || [ -z "$DH_USER" ]
+then
+  echo  -e $CL_YLW"DevHost Password or user not specified."$CL_RST
+  echo  -e $CL_YLW"Upload will be skipped"$CL_RST
+  export UPLOAD="false"
+  exit 0
+else
+  export UPLOAD="true"
+  case $DEVICE in 
+  "codina")
+    export FOLDER="26295"
+    ;;
+  "codinap")
+    export FOLDER="26296"
+    ;;
+  "janice")
+    export FOLDER="26296"
+    ;;
+  *)
+    echo  -e $CL_YLW"Device upload not supported"$CL_RST
+    export UPLOAD="false"
+	exit 0
+  esac
+fi
+
 if [ $KERNEL_ONLY = "true" ]
 then
   time devhost -u $DH_USER -p $DH_PASSWORD upload  $WORKSPACE/$ROM_NAME/out/target/product/$DEVICE/boot.img -f $FOLDER -d $DESC -pb  $DH_PUB
