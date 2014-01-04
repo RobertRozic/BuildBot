@@ -14,7 +14,7 @@ else
     export FOLDER="26295"
     ;;
   "codinap")
-    export FOLDER="26296"
+    export FOLDER="29956"
     ;;
   "janice")
     export FOLDER="26296"
