@@ -71,7 +71,7 @@ else
 fi
 
 # Kernel only
-if [ $KERNEL_ONLY="true" ]
+if [ $KERNEL_ONLY = "true" ]
 then
   export SINGLE_PACKAGE="true"
   export PACKAGE_NAME="bootimage"
