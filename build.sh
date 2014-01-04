@@ -19,6 +19,7 @@ export CCACHE_NLEVELS=4
 export PATH=~/bin:$PATH
 export CCACHE_DIR=~/.ccache
 export PATH="$PATH:/opt/local/bin/:$WORKSPACE/$ROM_NAME/prebuilts/misc/$(uname|awk '{print tolower($0)}')-x86/ccache"
+ccache -M 50G
 
 # Build directory
 export JENKINS_BUILD_DIR="$ROM_NAME"
@@ -53,12 +54,6 @@ fi
 . build/envsetup.sh
 lunch $LUNCH
 check_result $CL_RED"Lunch failed!"$CL_RST
-
-# CCache max size
-if [ ! "$(ccache -s|grep -E 'max cache size'|awk '{print $4}')" = "50.0" ]
-then
-  ccache -M 50G
-fi
 
 # Clean
 if [ $CLEAN = "true" ]
