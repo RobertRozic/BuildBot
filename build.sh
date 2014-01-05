@@ -81,7 +81,7 @@ then
   fi
 else
   echo -e $CL_MAG"Building..."$CL_RST
-  time make -j6 bacon
+  time make -j8 bacon
   check_result $CL_RED"Build failed!"$CL_RST
   echo -e $CL_GRN"Package build finished!"$CL_RST
 fi
